@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  frontend-service:
+    image: "ng-frontend-service:latest"
+    ports:
+      - "3000:3000"
+  game-service:
+    image: "ng-game-service"
+    ports:
+      - "8080:8080"
