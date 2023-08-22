@@ -1,161 +1,135 @@
 @import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
 
 $primary-color: lavender;
+$secondary-color: rgb(180, 180, 253);
 $action-color: rgb(255, 136, 0);
 $action-color-highlight: rgb(255, 0, 0);
 $yellow: rgb(255, 255, 50);
 
 .default-font {
-  font-family: "Concert One", Helvetica, sans-serif;
-  background-color: black;
-  color: $primary-color;
+	font-family: "Concert One", Helvetica, sans-serif;
+	color: $primary-color;
 }
 
 .default-border {
-  border: 2px solid $primary-color;
-}
+    border: 2px solid $primary-color;
+  }
 
 @keyframes glowYellow {
-  0% {
-      color: $yellow;
-      font-size: 50px;
-  }
-  100% {
-      color: rgb(255, 255, 255);
-      font-size: 55px;
-  }
-}
-
-@keyframes glowRed {
-  0% {
-      background-color: $action-color;
-  }
-  100% {
-      background-color: $action-color-highlight;
-  }
+	0% {
+			color: $yellow;
+			font-size: 50px;
+	}
+	100% {
+			color: rgb(255, 255, 255);
+			font-size: 55px;
+	}
 }
 
 body {
-  @extend .default-font;
+	@extend .default-font;
+    background-color: black;
 }
 
 .main {
-  margin: auto;
-  margin-top: 100px;
-  width: 50%;
-  text-align: center;
-  font-size: 24px;
+	margin: auto;
+	margin-top: 100px;
+	width: 50%;
+	text-align: center;
+	font-size: 24px;
 }
 
 .title {
-  animation: glowYellow 2s ease infinite alternate-reverse;
-  min-height: 100px;
-  margin-top: 20px;
+	animation: glowYellow 2s ease infinite alternate-reverse;
+	min-height: 100px;
+	margin-top: 20px;
 }
 
 .range {
-  margin-top: 60px;
-}
+	margin-top: 60px;
 
-.input-field {
-  margin-top: 20px;
-  .description {
-    display: inline;
-    font-size: 30px;
-  }
+    .game-options {
+        margin-top: 30px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+
+        button {
+            @extend .default-font;
+            font-size: 20px;
+            width: 100px;
+            height: 50px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+
+            &:hover {
+                opacity: 0.5;
+            }
+
+            &.easy {
+                background-color: greenyellow;
+                color: $secondary-color;
+            }
+            &.medium {
+                background-color: orange;
+            }
+            &.hard {
+                background-color: red;
+            }
+        }
+    }
 }
 
 input {
-  @extend .default-font;
-  font-size: 30px;
-  width: 65px;
-  border: 2px solid $primary-color;
-  border-radius: 10px;
-  text-align: center;
+    @extend .default-font;
+    background-color: black;
+    font-size: 30px;
+    width: 65px;
+    border: 2px solid $primary-color;
+    border-radius: 10px;
+    text-align: center;
 }
 
 .input-buttons {
-  button {
-    @extend .default-font;
-    @extend .default-border;
-    margin: 10px;
-    margin-top: 20px;
-    font-size: 30px;
-    border-radius: 100px;
-    text-align: center;
-    width: 40px;
-    background-color: $primary-color;
-    color: black;
-    &:hover {
-      background-color: black;
-      color: $primary-color;
-      cursor: pointer;
+    button {
+        @extend .default-font;
+        @extend .default-border;
+        margin: 10px;
+        margin-top: 20px;
+        font-size: 30px;
+        border-radius: 100px;
+        text-align: center;
+        width: 40px;
+        background-color: $primary-color;
+        color: black;
+        &:hover {
+            background-color: black;
+            color: $primary-color;
+            cursor: pointer;
+        }
     }
-  }
-}
-
-.start-button {
-  @extend .default-border;
-  animation: glowRed 1s ease infinite alternate-reverse;
-  margin-top: 60px;
-  border-radius: 100px;
-  width: 100px;
-  height: 80px;
-  padding-top: 20px;
-  background-color: $action-color;
-  border: 0;
-  color: white;
-  vertical-align: middle;
-  display: inline-block;
-  text-align: center;
-  &:hover {
-    animation-play-state: paused;
-    cursor: pointer;
-    margin-top: 57px;
-    width: 110px;
-    height: 85px;
-    padding-top: 25px;
-    font-size: 26px;
-  }
-  &:active {
-    animation-play-state: paused;
-    font-size: 17px;
-    width: 80px;
-    height: 60px;
-    padding-top: 20px;
-    margin-top: 70px;
-  }
 }
 
 .result {
-  margin-top: 50px;
-  display: inline-block;
+	margin-top: 50px;
+	display: inline-block;
 
-  .highlight {
-    color: red;
-    display: inline;
-    text-transform: uppercase;
-  }
+	.highlight {
+		color: red;
+		display: inline;
+		text-transform: uppercase;
+	}
 
-  .correct-guess {
-    font-size: 40px;
-    color: $yellow;
-  }
+	.correct-guess {
+		font-size: 40px;
+		color: $yellow;
+	}
 
-  .game-over {
-    font-size: 40px;
-    color: red;
-  }
+	.game-over {
+		font-size: 40px;
+		color: red;
+	}
 
 }
-
-.build {
-  bottom: 0vh;
-  position: fixed;
-  right: 0vw;
-  font-size: 12px;
-  padding-right: 10px;
-  padding-bottom: 10px;
-}
-
 

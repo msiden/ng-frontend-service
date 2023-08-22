@@ -1,39 +1,37 @@
-import {useState} from 'react'
-
-import { verifyRange, sendNewGameRequest } from './helpers'
-import { MIN_RANGE } from './constants'
-
+import { sendNewGameRequest } from './helpers'
 
 export const RangeSelector = ({ setGame }) => {
 
-    const [range, setRange] = useState(100)
-
-    const setRangeHandler = (event) => {
-		setRange(Number(event.target.value))
-	}
-
-    const startGame = async () => {
-        const response = await sendNewGameRequest(range)
-        setGame({
-            id: response.id,
-            range: range,
-            guessesLeft: 10
-        })
-	}
-
     return (
         <div className="range">
-            <div>Select range</div>
-            <div className="input-field">
-                <div className="description">1 to </div>
-                <input type="text" value={range} onChange={setRangeHandler} />
+            <div>
+                Select difficulty level
             </div>
-            <div className="input-buttons">
-                <button onClick={() => setRange(verifyRange(range-1, MIN_RANGE))}>-</button>
-                <button onClick={() => setRange(verifyRange(range+1, MIN_RANGE))}>+</button>
+
+            <div className="game-options">
+                <GameType text={'Easy'} range={10} guesses={5} setGame={setGame} className="easy" />
+                <GameType text={'Medium'} range={100} guesses={10} setGame={setGame} className="medium" />
+                <GameType text={'Hard'} range={500} guesses={10} setGame={setGame} className="hard" />
             </div>
-            <div className="start-button" onClick={() => startGame()}>LET'S PLAY!</div>
+
         </div>
     )
 }
 
+const GameType = ({ text, range, guesses, setGame, className }) => {
+
+    const startGame = async (range, guesses) => {
+        const response = await sendNewGameRequest(range)
+        setGame({
+            id: response.id,
+            range: range,
+            guessesLeft: guesses
+        })
+	}
+
+    return (
+        <button onClick={() => startGame(range, guesses)} className={className} >
+            { text }
+        </button>
+    )
+}

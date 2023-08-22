@@ -21,9 +21,6 @@ const App = () => {
 			{gameStarted ?
 				<Game game={game} /> :
 				<RangeSelector setGame={setGame} />}
-			<div className="build">
-				Build 0.0.4
-			</div>
 		</div>
   	)
 }
