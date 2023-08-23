@@ -19,7 +19,7 @@ const App = () => {
 				Numbr Guessr
 			</div>
 			{gameStarted ?
-				<Game game={game} /> :
+				<Game game={game} setGame={setGame} /> :
 				<RangeSelector setGame={setGame} />}
 		</div>
   	)

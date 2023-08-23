@@ -3,8 +3,13 @@ const LOCALHOST = 'http://127.0.0.1:8080/'
 const URL = window.location.href.includes('localhost') ? LOCALHOST : window.location.href
 
 
-export const sendNewGameRequest = async (range) => {
-    return await makeRequest('POST', `${URL}new_game`, {range: range})
+export const sendNewGameRequest = async (range, maxGuesses) => {
+    return await makeRequest(
+        'POST', `${URL}new_game`, {
+            range: range,
+            max_guesses: maxGuesses
+        }
+    )
 }
 
 export const sendGuessRequest = async (guess, id) => {

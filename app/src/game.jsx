@@ -4,7 +4,7 @@ import { verifyRange, sendGuessRequest } from './helpers'
 import { MIN_GUESS_VALUE } from './constants'
 
 
-export const Game = ({ game }) => {
+export const Game = ({ game, setGame }) => {
 
     const [guess, setGuess] = useState(1)
     const [guessesLeft, setGuessesLeft] = useState(game.guessesLeft)
@@ -38,12 +38,12 @@ export const Game = ({ game }) => {
                     <button type="submit">{'>'}</button>
                 </form>}
             {answer &&
-                <Result answer={answer} guessesLeft={guessesLeft} guess={guess} correctNumber={correctNumber} />}
+                <Result answer={answer} guessesLeft={guessesLeft} guess={guess} correctNumber={correctNumber} setGame={setGame} />}
         </div>
     )
 }
 
-const Result = ({answer, guessesLeft, guess, correctNumber}) => {
+const Result = ({ answer, guessesLeft, guess, correctNumber, setGame }) => {
 
     const correctAnswer = answer === 'correct' && guessesLeft > 0
     const wrongAnswer = answer !== 'correct' && guessesLeft > 0
@@ -51,14 +51,14 @@ const Result = ({answer, guessesLeft, guess, correctNumber}) => {
 
     return (
         <div  className="result">
-            {correctAnswer && <RightAnswer guess={guess}/>}
+            {correctAnswer && <RightAnswer guess={guess} setGame={setGame} />}
             {wrongAnswer && <WrongAnswer answer={answer} guessesLeft={guessesLeft} />}
-            {gameOver && <GameOver correctNumber={correctNumber}/>}
+            {gameOver && <GameOver correctNumber={correctNumber} setGame={setGame} />}
         </div>
     )
 }
 
-const WrongAnswer = ({answer, guessesLeft}) => {
+const WrongAnswer = ({ answer, guessesLeft }) => {
     return(
         <div>
             Sorry! You guessed <div className="highlight">wrong.</div><br/>
@@ -67,20 +67,38 @@ const WrongAnswer = ({answer, guessesLeft}) => {
         </div>)
     }
 
-const RightAnswer = ({guess}) => {
+const RightAnswer = ({ guess, setGame }) => {
     return (
         <div className="correct-guess">
-            CONGRATULATIONS!<br/>
-            {guess} WAS THE RIGHT NUMBER!
+            <div>
+                CONGRATULATIONS!
+            </div>
+            <div>
+                {guess} WAS THE CORRECT NUMBER!
+            </div>
+            <PlayAgain setGame={setGame} />
         </div>
     )
 }
 
-const GameOver = ({correctNumber}) => {
+const GameOver = ({ correctNumber, setGame }) => {
     return (
         <div className="game-over">
-            <div>SORRY! GAME OVER!</div>
-            <div>The correct number was {correctNumber}</div>
+            <div>
+                SORRY! GAME OVER!
+            </div>
+            <div>
+                The correct number was {correctNumber}
+            </div>
+            <PlayAgain setGame={setGame} />
         </div>
+    )
+}
+
+const PlayAgain = ({ setGame }) => {
+    return (
+        <button className="play-again" type="button" onClick={() => setGame({id: null})}>
+            PLAY AGAIN?
+        </button>
     )
 }
