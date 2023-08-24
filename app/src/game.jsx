@@ -18,6 +18,7 @@ export const Game = ({ game, setGame }) => {
     const handleSubmit = async (event) => {
         event.preventDefault()
         const response = await sendGuessRequest(guess, game.id)
+        console.log('response', response)
 
         setAnswer(response.answer)
         setGuessesLeft(response.guesses_left)
