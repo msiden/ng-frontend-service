@@ -124,6 +124,16 @@ input {
 	.correct-guess {
 		font-size: 40px;
 		color: $yellow;
+
+        .game-summary {
+            margin-top: 30px;
+            font-size: 22px;
+
+            .score {
+                font-size: 40px;
+                margin-top: 20px;
+            }
+        }
 	}
 
 	.game-over {

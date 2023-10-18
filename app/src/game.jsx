@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useRef} from 'react'
 
 import { verifyRange, sendGuessRequest } from './helpers'
 import { MIN_GUESS_VALUE } from './constants'
@@ -10,6 +10,8 @@ export const Game = ({ game, setGame }) => {
     const [guessesLeft, setGuessesLeft] = useState(game.guessesLeft)
     const [answer, setAnswer] = useState('')
     const [correctNumber, setCorrectNumber] = useState(null)
+
+    const gameSummary = useRef({})
 
     const setGuessHandler = (event) => {
         setGuess(Number(event.target.value))
@@ -23,6 +25,14 @@ export const Game = ({ game, setGame }) => {
         setAnswer(response.answer)
         setGuessesLeft(response.guesses_left)
         setCorrectNumber(response.correct_number)
+
+        if (response.answer === 'correct') {
+            gameSummary.current = {
+                guessesUsed: response.max_guesses - response.guesses_left,
+                secondsUsed: response.total_time,
+                score: response.total_score
+            }
+        }
     }
 
     return (
@@ -34,17 +44,32 @@ export const Game = ({ game, setGame }) => {
             {answer !== 'correct' && guessesLeft > 0 &&
                 <form onSubmit={handleSubmit} className="input-buttons">
                     <input type="text" value={guess} onChange={setGuessHandler} />
-                    <button type="button" value={verifyRange(guess-1, MIN_GUESS_VALUE)} onClick={setGuessHandler}>-</button>
-                    <button type="button" value={guess+1} onClick={setGuessHandler}>+</button>
-                    <button type="submit">{'>'}</button>
-                </form>}
+                    <button type="button" value={verifyRange(guess-1, MIN_GUESS_VALUE)} onClick={setGuessHandler}>
+                        -
+                    </button>
+                    <button type="button" value={guess+1} onClick={setGuessHandler}>
+                        +
+                    </button>
+                    <button type="submit">
+                        {'>'}
+                    </button>
+                </form>
+            }
             {answer &&
-                <Result answer={answer} guessesLeft={guessesLeft} guess={guess} correctNumber={correctNumber} setGame={setGame} />}
+                <Result
+                    answer={answer}
+                    guessesLeft={guessesLeft}
+                    guess={guess}
+                    correctNumber={correctNumber}
+                    setGame={setGame}
+                    gameSummary={gameSummary}
+                />
+            }
         </div>
     )
 }
 
-const Result = ({ answer, guessesLeft, guess, correctNumber, setGame }) => {
+const Result = ({ answer, guessesLeft, guess, correctNumber, setGame, gameSummary }) => {
 
     const correctAnswer = answer === 'correct' && guessesLeft > 0
     const wrongAnswer = answer !== 'correct' && guessesLeft > 0
@@ -52,7 +77,7 @@ const Result = ({ answer, guessesLeft, guess, correctNumber, setGame }) => {
 
     return (
         <div  className="result">
-            {correctAnswer && <RightAnswer guess={guess} setGame={setGame} />}
+            {correctAnswer && <RightAnswer guess={guess} setGame={setGame} gameSummary={gameSummary} />}
             {wrongAnswer && <WrongAnswer answer={answer} guessesLeft={guessesLeft} />}
             {gameOver && <GameOver correctNumber={correctNumber} setGame={setGame} />}
         </div>
@@ -68,7 +93,7 @@ const WrongAnswer = ({ answer, guessesLeft }) => {
         </div>)
     }
 
-const RightAnswer = ({ guess, setGame }) => {
+const RightAnswer = ({ guess, setGame, gameSummary }) => {
     return (
         <div className="correct-guess">
             <div>
@@ -77,6 +102,7 @@ const RightAnswer = ({ guess, setGame }) => {
             <div>
                 {guess} WAS THE CORRECT NUMBER!
             </div>
+            <GameSummary gameSummary={gameSummary.current} />
             <PlayAgain setGame={setGame} />
         </div>
     )
@@ -101,5 +127,21 @@ const PlayAgain = ({ setGame }) => {
         <button className="play-again" type="button" onClick={() => setGame({id: null})}>
             PLAY AGAIN?
         </button>
+    )
+}
+
+const GameSummary = ({ gameSummary }) => {
+    return (
+        <div className="game-summary">
+            <div>
+                {`Time used: ${gameSummary.secondsUsed} seconds`}
+            </div>
+            <div>
+                {`Guesses used: ${gameSummary.guessesUsed}`}
+            </div>
+            <div className="score">
+                {`Your score: ${gameSummary.score}`}
+            </div>
+        </div>
     )
 }

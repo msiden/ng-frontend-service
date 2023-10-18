@@ -1,4 +1,5 @@
 import { sendNewGameRequest } from './helpers'
+import { BestScores } from './scores'
 
 export const RangeSelector = ({ setGame }) => {
 
@@ -13,6 +14,8 @@ export const RangeSelector = ({ setGame }) => {
                 <GameType text={'Medium'} range={100} maxGuesses={10} level={1} setGame={setGame} className="medium" />
                 <GameType text={'Hard'} range={500} maxGuesses={10} level={2} setGame={setGame} className="hard" />
             </div>
+
+            <BestScores />
 
         </div>
     )
