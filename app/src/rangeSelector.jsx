@@ -1,4 +1,4 @@
-import { sendNewGameRequest } from './helpers'
+import { newGame } from './helpers'
 import { BestScores } from './scores'
 
 export const RangeSelector = ({ setGame }) => {
@@ -24,7 +24,7 @@ export const RangeSelector = ({ setGame }) => {
 const GameType = ({ text, range, maxGuesses, level, setGame, className }) => {
 
     const startGame = async (range, maxGuesses, level) => {
-        const response = await sendNewGameRequest(range, maxGuesses, level)
+        const response = await newGame(range, maxGuesses, level)
         console.log(response)
         setGame({
             id: response.id,

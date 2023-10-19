@@ -1,6 +1,6 @@
 import {useState, useRef} from 'react'
 
-import { verifyRange, sendGuessRequest } from './helpers'
+import { verifyRange, submitGuess } from './helpers'
 import { MIN_GUESS_VALUE } from './constants'
 
 
@@ -19,7 +19,7 @@ export const Game = ({ game, setGame }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        const response = await sendGuessRequest(guess, game.id)
+        const response = await submitGuess(guess, game.id)
         console.log('response', response)
 
         setAnswer(response.answer)
